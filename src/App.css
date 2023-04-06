@@ -132,7 +132,7 @@ h1 {
 
 .icons {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   font-size: 24px;
   cursor: pointer;
 }
@@ -140,8 +140,10 @@ h1 {
 .delete-icon {
   margin-right: 5px;
   color: #fff;
+  margin: 0 5px;
 }
 
 .edit-icon {
   color: #fff;
+  margin: 0 5px;
 }

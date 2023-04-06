@@ -10,17 +10,19 @@ interface TodoFormProps {
     todo: TodoType
   ) => void;
   edit?: TodoType;
+  todos?: Array<TodoType>;
 }
 
 const TodoForm = ({
   edit,
   onSubmit,
+  todos,
 }: TodoFormProps) => {
   const [
     taskInput,
     setTaskInput,
   ] = useState("");
-  
+
   const inputRef =
     useRef<any>(null);
 
@@ -47,7 +49,9 @@ const TodoForm = ({
       event.target.value
     );
     onSubmit({
-      id: 1,
+      id: todos?.length
+        ? todos.length + 1
+        : 1,
       text: taskInput,
     });
     setTaskInput("");
@@ -79,7 +83,7 @@ const TodoForm = ({
             placeholder="Update your item"
             value={taskInput}
             name="text"
-            className='todo-input edit'
+            className="todo-input edit"
             onChange={
               handleChange
             }
@@ -100,7 +104,7 @@ const TodoForm = ({
             placeholder="Add a todo"
             value={taskInput}
             name="text"
-            className='todo-input'
+            className="todo-input"
             onChange={
               handleChange
             }
@@ -110,7 +114,7 @@ const TodoForm = ({
             onClick={
               handleSubmit
             }
-            className='todo-button'
+            className="todo-button"
           >
             Add todo
           </button>
