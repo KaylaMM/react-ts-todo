@@ -1,32 +1,121 @@
-import { ChangeEvent, useState } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+} from "react";
 import { TodoType } from "./types";
 
 interface TodoFormProps {
-  onSubmit: (todo: TodoType) => void;
+  onSubmit: (
+    todo: TodoType
+  ) => void;
+  edit?: TodoType;
 }
 
-const TodoForm = ({ onSubmit }: TodoFormProps) => {
-  const [taskInput, setTaskInput] = useState("");
+const TodoForm = ({
+  edit,
+  onSubmit,
+}: TodoFormProps) => {
+  const [
+    taskInput,
+    setTaskInput,
+  ] = useState("");
+  
+  const inputRef =
+    useRef<any>(null);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTaskInput(event.target.value);
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  });
+
+  const handleChange = (
+    event: any
+  ) => {
+    setTaskInput(
+      event.target.value
+    );
   };
 
-  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit = (
+    event: any
+  ) => {
     event.preventDefault();
-    console.log("target", event.target.value);
-    onSubmit({ id: 1, text: taskInput });
+    console.log(
+      "target",
+      event.target.value
+    );
+    onSubmit({
+      id: 1,
+      text: taskInput,
+    });
+    setTaskInput("");
+  };
+
+  const handleEdit = (
+    event: any
+  ) => {
+    event.preventDefault();
+    console.log(
+      "target",
+      event.target.value
+    );
+    onSubmit({
+      id: 1,
+      text: taskInput,
+    });
     setTaskInput("");
   };
 
   return (
-    <form className="todo-form" onSubmit={handleSubmit}>
-      <input
-        placeholder="Add a task"
-        onChange={handleChange}
-        value={taskInput}
-      ></input>
-      <button type="submit">Save</button>
+    <form
+      className="todo-form"
+      onSubmit={handleSubmit}
+    >
+      {edit ? (
+        <>
+          <input
+            placeholder="Update your item"
+            value={taskInput}
+            name="text"
+            className='todo-input edit'
+            onChange={
+              handleChange
+            }
+            ref={inputRef}
+          />
+          <button
+            onClick={
+              handleEdit
+            }
+            className="todo-button edit"
+          >
+            Save Changes
+          </button>
+        </>
+      ) : (
+        <>
+          <input
+            placeholder="Add a todo"
+            value={taskInput}
+            name="text"
+            className='todo-input'
+            onChange={
+              handleChange
+            }
+            ref={inputRef}
+          />
+          <button
+            onClick={
+              handleSubmit
+            }
+            className='todo-button'
+          >
+            Add todo
+          </button>
+        </>
+      )}
     </form>
   );
 };
