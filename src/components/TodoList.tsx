@@ -63,6 +63,7 @@ function TodoList() {
       <div>
         {todos.map((todo) => (
           <ToDo
+            key={todo.id}
             todo={todo}
             editTodo={
               editTodo
